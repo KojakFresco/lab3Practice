@@ -34,7 +34,6 @@ def counting_sort(a):
         cnt[a[i]] += 1
     for i in range(1, 100):
         cnt[i] += cnt[i - 1]
-
     return cnt
     
 n = int(input())
@@ -45,3 +44,21 @@ for _ in range(n):
     arr.append(int(i))
 for i in counting_sort(arr):
     print(i, end=" ")
+
+
+# Quick sort 1
+def quickSort(arr):
+    # Write your code here
+    pivot = arr[0]
+    left = []
+    equal = []
+    right = []
+    for i in arr:
+        if i < pivot:
+            left.append(i)
+        elif i == pivot:
+            equal.append(i)
+        else:
+            right.append(i)
+        
+    return left + equal + right
