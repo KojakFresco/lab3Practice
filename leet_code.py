@@ -47,3 +47,52 @@ class Solution(object):
                 i += 1
                 count[j] -= 1
             j += 1
+
+
+# LeetCode 347
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        cnt = {}
+        for num in nums:
+            if num not in cnt.keys():
+                cnt[num] = 1
+            else:
+                cnt[num] += 1    
+        return self.counting_sort(cnt)[-k:]
+    
+    def counting_sort(self, a: dict) -> list[int]:
+        cnt = [0]*(max(a.values()) + 1)
+
+        for i in a.values():
+            cnt[i] += 1
+        for i in range(1, len(cnt)):
+            cnt[i] += cnt[i - 1]
+        for i in range(len(cnt) - 1, 0, -1):
+            cnt[i] = cnt[i - 1]
+        cnt[0] = 0
+
+        res = [0]*len(a)
+        for key, value in a.items():
+            res[cnt[value]] = key
+            cnt[value] += 1
+        return res
+        
+
+# LeetCode 215
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> List[int]:
+        max_nums = max(nums)
+        min_nums = min(nums)
+        cnt = [0]*(max_nums - min_nums + 1)
+
+        for i in nums:
+            cnt[i - min_nums] += 1
+        for i in range(len(cnt) - 1, 0, -1):
+            cnt[i - 1] += cnt[i]
+        print(cnt)
+
+        for i in range(len(cnt) - 1, -1, -1):
+            if cnt[i] >= k:
+                return i + min_nums
+        
+        
