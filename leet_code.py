@@ -28,7 +28,7 @@ class Solution(object):
         return n1
 
 
-# LeetCode 75
+# LeetCode 75 with Follow-up
 class Solution(object):
     def sortColors(self, nums):
         """
@@ -49,7 +49,7 @@ class Solution(object):
             j += 1
 
 
-# LeetCode 347
+# LeetCode 347 with Follow-up
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         cnt = {}
@@ -95,4 +95,75 @@ class Solution:
             if cnt[i] >= k:
                 return i + min_nums
         
-        
+
+# LeetCode 20
+class Solution:
+    def isValid(self, s: str) -> bool:
+        lst = []
+        for br in s:
+            if not lst and br in '}])':
+                return False
+                
+            match br:
+                case '}':
+                    if lst[-1] == '{': lst.pop()
+                    else: return False
+                case ']':
+                    if lst[-1] == '[': lst.pop()
+                    else: return False
+                case ')':
+                    if lst[-1] == '(': lst.pop()
+                    else: return False
+                case _:
+                    lst.append(br)
+        return not lst
+
+
+# LeetCode 225 with Follow-up
+from queue import Queue
+
+class MyStack:
+    def __init__(self):
+        self.queue = Queue()
+
+    def push(self, x: int) -> None:
+        self.queue.put(x)
+        for _ in range(self.queue.qsize() - 1):
+            self.queue.put(self.queue.get())
+
+    def pop(self) -> int:
+        return self.queue.get()
+
+    def top(self) -> int:
+        res = self.queue.get()
+        self.push(res)
+        return res
+
+    def empty(self) -> bool:
+        return self.queue.empty()
+
+
+# LeetCode 232 with Follow-up
+from queue import LifoQueue
+
+class MyQueue:
+    def __init__(self):
+        self.s1 = LifoQueue()
+        self.s2 = LifoQueue()
+
+    def push(self, x: int) -> None:
+        self.s1.put(x)
+
+    def pop(self) -> int:
+        if self.s2.empty():
+            while not self.s1.empty():
+                self.s2.put(self.s1.get())
+        return self.s2.get()
+
+    def peek(self) -> int:
+        res = self.pop()
+        self.s2.put(res)
+        return res
+
+    def empty(self) -> bool:
+        return self.s1.empty() and self.s2.empty()
